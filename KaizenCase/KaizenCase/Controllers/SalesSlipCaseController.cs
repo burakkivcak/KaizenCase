@@ -10,7 +10,7 @@ namespace KaizenCase.Controllers
     {
         [HttpPost]
         [Route("SalesSlip")]
-        public IActionResult Create([FromBody] List<ResponseJson> responseJsons)
+        public IActionResult SalesSlip([FromBody] List<ResponseJson> responseJsons)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace KaizenCase.Controllers
                     Text = responseJsons[1].Description,
                     BoundingPoly = responseJsons[1].BoundingPoly
                 });
-                int pixelGapValue = 10;
+                int gapValue = 10;
                 
                 for (int i = 2; i < responseJsons.Count; i++)
                 {
@@ -32,7 +32,7 @@ namespace KaizenCase.Controllers
                     bool isProcessComplete = false;
                     foreach (var item in workflowSlipSummaries.ToList())
                     {
-                        if(item.BoundingPoly.Vertices[0].y + 10 > responseJsons[i].BoundingPoly.Vertices[0].y && item.BoundingPoly.Vertices[0].y - 10 < responseJsons[i].BoundingPoly.Vertices[0].y)
+                        if(item.BoundingPoly.Vertices[0].y + gapValue > responseJsons[i].BoundingPoly.Vertices[0].y && item.BoundingPoly.Vertices[0].y - gapValue < responseJsons[i].BoundingPoly.Vertices[0].y)
                         {
                             isProcessComplete=true;
                             workflowSlipSummaries.Add(new WorkflowSlipSummary()
